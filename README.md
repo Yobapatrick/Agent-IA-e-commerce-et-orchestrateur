@@ -34,7 +34,8 @@ I-Fonctionnalités principales
 - **Sous-agent gestion de stock** : mise à jour sécurisée du stock après la commande d'un ou de plusieurs produits par un client.
 - *Sous-agent email fournisseur (Safe 2)** : envoi d’emails aux fournisseurs pour la commande des produits à l'aide des informations contenus dans la base de données 
 - Séparation claire décision / action
--*Sous-agents opérations bureautique Agenda & contacts:
+  
+-**Sous-agents opérations bureautique** :
 ...Création / modification / suppression d’événements **Google Calendar**
 ...Ajout / modification / suppression de contacts **Google Contacts**
 ...Email : Envoie de mail
