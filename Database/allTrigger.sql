@@ -1,4 +1,4 @@
-
+gi
 
 
 CREATE TRIGGER tr_update_clients_timestamp
