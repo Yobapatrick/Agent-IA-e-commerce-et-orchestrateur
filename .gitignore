@@ -1,0 +1,37 @@
+# --- VARIABLES D'ENVIRONNEMENT ---
+
+.env
+.env.local
+.env.*.local
+
+# --- N8N & BACKEND ---
+
+
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# --- SYSTÈME & LOGS ---
+
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs de l'application
+logs
+*.log
+
+# --- ÉDITEURS DE CODE ---
+
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# --- FICHIERS TEMPORAIRES ---
+
+dist/
+build/
+tmp/
+.cache/
