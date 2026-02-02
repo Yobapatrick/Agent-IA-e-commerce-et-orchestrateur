@@ -76,12 +76,12 @@ Agent-IA-e-commerce-et-orchestrateur/
 ├── docker/
 │   ├── docker-compose.yml
 │   ├── .env.example
-
+|
 │
 ├── n8n/
 │   ├──agent_principal.json
-
-
+|
+|
 │   ├── prompts/
 │   │   ├── agentPrincipal.md
 │   │   ├── sousAgentBureautique.md
@@ -94,9 +94,17 @@ Agent-IA-e-commerce-et-orchestrateur/
 │   ├── src/
 │   ├── public/
 │   ├── package.json
-│   └── README.md
-│
-│
+│      └── README.md
+|
+|
+├── Results/
+│   ├── devis1.jpeg.
+│   ├── devis2.jpeg
+│   ├── mail1.jpeg.
+│   ├── mail2.jpeg
+│   ├── bot.jpeg
+|
+|
 ├── Scripts additionnels/
 │   ├── devis.js
 │   ├── extractionJson.js
