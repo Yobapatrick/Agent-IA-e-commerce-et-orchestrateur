@@ -1,0 +1,1554 @@
+{
+  "updatedAt": "2026-02-02T11:27:14.762Z",
+  "createdAt": "2025-12-24T20:13:52.346Z",
+  "id": "UfGKcJJSd7iYp6Dj",
+  "name": "My workflow",
+  "description": null,
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -432,
+        48
+      ],
+      "id": "63f6c2a4-a457-447e-9f7b-325db6f3dcaf",
+      "name": "Telegram Trigger",
+      "webhookId": "**************************************",
+      "credentials": {
+        "telegramApi": {
+          "id": "**************************************",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "commande",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -432,
+        352
+      ],
+      "id": "3ccfcada-815a-4f6c-93bf-e09106aad704",
+      "name": "Webhook",
+      "webhookId": "**************************************"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -80,
+        528
+      ],
+      "id": "17eb0e1f-c911-44dc-a731-e62fdb902bfc",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "**************************************",
+          "name": "Modèle OpenAi"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ ($json.body?.client?.email || $json.message?.from?.id || \"default_session\").toString() }}",
+        "contextWindowLength": 100
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        48,
+        528
+      ],
+      "id": "b2cbfd78-384f-4b41-bb92-e623f2bc79cf",
+      "name": "Simple Memory1"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "value": "projet_n8n",
+          "mode": "list",
+          "cachedResultName": "projet_n8n"
+        },
+        "table": {
+          "__rl": true,
+          "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Table', ``, 'string') }}",
+          "mode": "name"
+        },
+        "returnAll": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Return_All', ``, 'boolean') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgresTool",
+      "typeVersion": 2.6,
+      "position": [
+        976,
+        528
+      ],
+      "id": "795a248c-a1da-4110-85b8-7aa7ccd47187",
+      "name": "Select rows from a table in Postgres",
+      "credentials": {
+        "postgres": {
+          "id": "**************************************",
+          "name": "Postgres lecture de données"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "value": "projet_n8n",
+          "mode": "list",
+          "cachedResultName": "projet_n8n"
+        },
+        "table": {
+          "__rl": true,
+          "value": "clients",
+          "mode": "list",
+          "cachedResultName": "clients"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "nom": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('nom', ``, 'string') }}",
+            "email": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('email', ``, 'string') }}",
+            "telephone": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('telephone', ``, 'string') }}",
+            "created_at": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('created_at', ``, 'string') }}",
+            "updated_at": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('updated_at', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "nom",
+              "displayName": "nom",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "telephone",
+              "displayName": "telephone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "created_at",
+              "displayName": "created_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "updated_at",
+              "displayName": "updated_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgresTool",
+      "typeVersion": 2.6,
+      "position": [
+        656,
+        528
+      ],
+      "id": "21431957-8dc5-4ec1-a668-626708f13b2e",
+      "name": "inserer données table clients",
+      "credentials": {
+        "postgres": {
+          "id": "******************",
+          "name": "Postgres lecture de données"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "value": "projet_n8n",
+          "mode": "list",
+          "cachedResultName": "projet_n8n"
+        },
+        "table": {
+          "__rl": true,
+          "value": "commandes",
+          "mode": "list",
+          "cachedResultName": "commandes"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "client_id": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('client_id', ``, 'number') }}",
+            "total": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('total', ``, 'number') }}",
+            "reference": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('reference', ``, 'string') }}",
+            "statut": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('statut', ``, 'string') }}",
+            "created_at": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('created_at', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "reference",
+              "displayName": "reference",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "client_id",
+              "displayName": "client_id",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "total",
+              "displayName": "total",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "statut",
+              "displayName": "statut",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "created_at",
+              "displayName": "created_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgresTool",
+      "typeVersion": 2.6,
+      "position": [
+        752,
+        528
+      ],
+      "id": "bae042ed-1e20-4ab4-90cf-ae5ddd613017",
+      "name": "inserer données table commandes",
+      "credentials": {
+        "postgres": {
+          "id": "88cDGwjhoUre81yN",
+          "name": "Postgres lecture de données"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "value": "projet_n8n",
+          "mode": "list",
+          "cachedResultName": "projet_n8n"
+        },
+        "table": {
+          "__rl": true,
+          "value": "lignes_commande",
+          "mode": "list",
+          "cachedResultName": "lignes_commande"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "produit_id": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('produit_id', ``, 'number') }}",
+            "prix_unitaire": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('prix_unitaire', ``, 'number') }}",
+            "quantite": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('quantite', ``, 'number') }}",
+            "ligne_total": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('ligne_total', ``, 'number') }}",
+            "commande_reference": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('commande_reference', ``, 'string') }}",
+            "produit_nom": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('produit_nom', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "commande_reference",
+              "displayName": "commande_reference",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "produit_id",
+              "displayName": "produit_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "produit_nom",
+              "displayName": "produit_nom",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "prix_unitaire",
+              "displayName": "prix_unitaire",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "quantite",
+              "displayName": "quantite",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ligne_total",
+              "displayName": "ligne_total",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgresTool",
+      "typeVersion": 2.6,
+      "position": [
+        864,
+        528
+      ],
+      "id": "91cea66b-4468-41f4-b4cc-a076e3a71da9",
+      "name": "inserer données dans la table lignes_commande",
+      "credentials": {
+        "postgres": {
+          "id": "88cDGwjhoUre81yN",
+          "name": "Postgres lecture de données"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "schema": {
+          "__rl": true,
+          "value": "projet_n8n",
+          "mode": "list",
+          "cachedResultName": "projet_n8n"
+        },
+        "table": {
+          "__rl": true,
+          "value": "produits",
+          "mode": "list",
+          "cachedResultName": "produits"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('id__using_to_match_', ``, 'number') }}",
+            "prix": 0,
+            "stock": 0,
+            "seuil": 0
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "nom",
+              "displayName": "nom",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "prix",
+              "displayName": "prix",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "stock",
+              "displayName": "stock",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "seuil",
+              "displayName": "seuil",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgresTool",
+      "typeVersion": 2.6,
+      "position": [
+        1120,
+        528
+      ],
+      "id": "0f86c209-dc43-4d57-bb0b-d9b20265c488",
+      "name": "Update rows in a table in Postgres",
+      "credentials": {
+        "postgres": {
+          "id": "88cDGwjhoUre81yN",
+          "name": "Postgres lecture de données"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -160,
+        976
+      ],
+      "id": "961c206d-2a0c-4f6e-82a2-8b5780a546b6",
+      "name": "OpenAI Chat Model2",
+      "credentials": {
+        "openAiApi": {
+          "id": "E4maLNpUWqzWqXwu",
+          "name": "Modèle OpenAi"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('To', ``, 'string') }}",
+        "subject": "Reapprovisionnement produit",
+        "emailType": "text",
+        "message": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message', ``, 'string') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.2,
+      "position": [
+        272,
+        976
+      ],
+      "id": "73c43f7f-87e9-42fe-a6e8-24323ba651e9",
+      "name": "Send a message in Gmail",
+      "webhookId": "b720b314-ae4e-4980-834b-f426e6d58980",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "Sib5kuwDgX6mgTJ9",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "value": "projet_n8n",
+          "mode": "list",
+          "cachedResultName": "projet_n8n"
+        },
+        "table": {
+          "__rl": true,
+          "value": "produits",
+          "mode": "list",
+          "cachedResultName": "produits"
+        },
+        "returnAll": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Return_All', ``, 'boolean') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgresTool",
+      "typeVersion": 2.6,
+      "position": [
+        176,
+        976
+      ],
+      "id": "e0762eef-2e81-4ef5-8cdb-8f57d08da2b6",
+      "name": "lecture donnée tables produits",
+      "credentials": {
+        "postgres": {
+          "id": "****************************",
+          "name": "Postgres lecture de données"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "value": "projet_n8n",
+          "mode": "list",
+          "cachedResultName": "projet_n8n"
+        },
+        "table": {
+          "__rl": true,
+          "value": "fournisseurs",
+          "mode": "list",
+          "cachedResultName": "fournisseurs"
+        },
+        "returnAll": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Return_All', ``, 'boolean') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgresTool",
+      "typeVersion": 2.6,
+      "position": [
+        80,
+        976
+      ],
+      "id": "b6fc894f-ad75-49bc-9c55-2c3e0a2af4be",
+      "name": "lecture donnée tables fournisseurs ",
+      "credentials": {
+        "postgres": {
+          "id": "*****************",
+          "name": "Postgres lecture de données"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "Agent IA permettant d'envoyer un message au fournisseur pour commander un produit",
+        "text": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Prompt__User_Message_', ``, 'string') }}",
+        "options": {
+          "systemMessage": "Tu es un sous-agent IA chargé UNIQUEMENT d’envoyer des emails aux fournisseurs via Gmail.\nTu n’accèdes à aucune base de données.\nTu ne modifies jamais le stock.\n\n================================================================================\nENTRÉE\n================================================================================\nTu reçois un JSON :\n\n{\n  \"produit_id\": number,\n  \"stock_actuel\": number,\n  \"seuil\": number,\n  \"quantite_a_commander\": number,\n  \"order_ref\": \"string\"\n}\n\n================================================================================\nRÈGLES STRICTES\n================================================================================\n- Tu envoies un email UNIQUEMENT si stock_actuel < seuil\n- Tu n’envoies qu’un seul email par passage sous le seuil\n- Tu utilises Gmail\n- Tu ne fais aucun calcul de stock\n\n================================================================================\nEMAIL À ENVOYER\n================================================================================\nObjet :\nCommande fournisseur – Produit ID {{produit_id}}\n\nContenu :\nBonjour,\n\nLe stock du produit {{produit_id}} est passé sous le seuil critique.\n\nStock actuel : {{stock_actuel}}\nSeuil : {{seuil}}\nQuantité à commander : {{quantite_a_commander}}\nRéférence commande client : {{order_ref}}\n\nMerci de traiter cette commande rapidement.\n\nCordialement,\nSystème e-commerce automatisé\n\n================================================================================\nSORTIE FINALE (JSON UNIQUEMENT)\n================================================================================\n{\n  \"ok\": true,\n  \"message\": \"Email fournisseur envoyé\"\n}\n\nvoici le template du message que tu vas devoir completer a partir des informations que tu vas lire dans les tables fournisseurs et produits :\nBonjour {{fournisseur_nom}},\n\nNous souhaitons réapprovisionner le produit suivant :\n\n- Produit : {{produit_nom}} (ID: {{produit_id}})\n- Stock actuel : {{stock_actuel}}\n- Seuil d’alerte : {{seuil}}\n- Quantité demandée : {{quantite_a_commander}}\n\n\nMerci de confirmer la disponibilité et le délai de livraison.\n\nCordialement,\nService Approvisionnement\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agentTool",
+      "typeVersion": 3,
+      "position": [
+        64,
+        784
+      ],
+      "id": "2785b817-da2c-4fb1-b960-6600b6a58b0e",
+      "name": "SousAgent_EmailFournisseur_Gmail"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.message.text }}||{{ JSON.stringify({\n  client: $json.body.client,\n  panier: $json.body.panier,\n  total: $json.body.total,\n  date: $json.body.date\n}, null, 2) }}\n",
+        "options": {
+          "systemMessage": "Rôle : Tu es l'Agent Orchestrateur Principal. Ton rôle est de qualifier la source de l'entrée (Webhook vs Telegram) et d'agir uniquement si la source est le Webhook e-commerce.\n\n================================================================================  RÈGLE D'AIGUILLAGE (PRIORITÉ ABSOLUE) ================================================================================ 1. Si l'entrée provient du Trigger Telegram (présence d'un champ \"message\", \"chat\", ou \"from\") :\n\n    ARRÊTE IMMÉDIATEMENT toute logique e-commerce.\n\n    Ne touche pas à PostgreSQL.\n\n    Réponds simplement : {\"route_to\": \"Assistant_taches_bureautique\", \"reason\": \"Demande utilisateur via Telegram\"}.\n\n    Ton travail s'arrête ici pour Telegram.\n\n2. Si l'entrée provient du Webhook (JSON avec structure \"client\", \"panier\", \"total\",\"date\") :\n\n    Applique strictement l'ordre d'orchestration e-commerce ci-dessous.\n\n\nTu es un agent IA orchestrateur d’un système e-commerce automatisé via n8n et PostgreSQL.\nTu ne fais aucune écriture logique toi-même.\nTu orchestres uniquement des outils PostgreSQL et des sous-agents spécialisés.\n\n================================================================================\nCONTEXTE D’ENTRÉE (Webhook)\n================================================================================\nTu reçois un JSON avec la structure suivante :\n\n{\n  \"client\": {\n    \"nom\": \"string\",\n    \"email\": \"string\",\n    \"telephone\": \"string\"\n  },\n  \"panier\": [\n    {\n      \"id\": number,\n      \"nom\": \"string\",\n      \"prix\": number,\n      \"quantite\": number\n    }\n  ],\n  \"total\": number,\n  \"date\": \"ISO string\"\n}\n\n================================================================================\nRÈGLES GÉNÉRALES ABSOLUES\n================================================================================\n- Tu n’inventes JAMAIS d’identifiant.\n- Tous les id proviennent de PostgreSQL (SERIAL).\n- L’email est unique et obligatoire (trim uniquement).\n- Le panier doit être non vide.\n- quantite >= 1 et prix >= 0.\n- Le stock ne doit jamais devenir négatif.\n- Tu dois respecter strictement l’ordre d’exécution.\n\n================================================================================\nORDRE D’ORCHESTRATION STRICT\n================================================================================\n\nA) Valider client + panier. Sinon STOP.\n\nB) Lire les produits pour vérifier que stock >= quantite pour chaque item.\n   Si un produit est insuffisant → STOP.\n\nC) Upsert client :\n   - SELECT par email\n   - UPDATE ou INSERT\n   - récupérer client_id\n\nD) Générer UNE SEULE FOIS la référence de commande :\n   order_ref = (\"CMD\" + YYMMDD + client_id).slice(0,10)\n\nE) INSERT la commande dans `commandes`\n   → récupérer la référence retournée (RETURNING reference)\n   → stocker dans order_ref_db\n   → NE PLUS recalculer la référence ensuite\n\nF) INSERT toutes les lignes dans `lignes_commande`\n   en utilisant STRICTEMENT order_ref_db\n\nG) Pour chaque produit du panier :\n   - appeler le SousAgent_Stock avec :\n     {\n       \"produit_id\": <id>,\n       \"quantite\": <quantite>\n     }\n\nI) Après l’appel au SousAgent_Stock :\n   - Si stock_apres < seuil :\n     appeler le sous-agent \"SousAgent_EmailFournisseur_Gmail\"\n     avec EXACTEMENT :\n\n     {\n       \"produit_id\": <produit_id>,\n       \"stock_actuel\": <stock_apres>,\n       \"seuil\": <seuil>,\n       \"quantite_a_commander\": 100 - <stock_apres>,\n       \"order_ref\": <order_ref_db>\n     }\n\n   - Si stock_apres >= seuil :\n     ne rien faire.\n\n================================================================================\nINTERDICTIONS\n================================================================================\n- Tu n’envoies jamais d’email toi-même.\n- Tu ne modifies jamais directement le stock.\n- Tu n’insères jamais dans lignes_commande sans commande existante.\n\n================================================================================\nOBLIGATIONS \n\n-Tu vas toujours jusqu'au bout du processus et tu retourne le json attendu\n================================================================================\nFORMAT DE SORTIE FINAL (JSON UNIQUEMENT)\n================================================================================\n\nSuccès :\n{\n  \"ok\": true,\n  \"order_ref\": \"CMD2501273\",\n  \"client_id\": 3,\n  \"nom\": bernard\n  \"email\": exemple@exemple.fr\n  \"telephone\":075.....\n\n  \"produits \": produit1\n   \"quantité\": quantité_produit1 \n   \"total commande\": total\n\n   \"message\": \"Commande enregistrée avec succès\"\n}\n\nÉchec :\n{\n  \"ok\": false,\n  \"order_ref\": null,\n  \"client_id\": null,\n  \"message\": \"Erreur explicite\"\n}\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        368,
+        224
+      ],
+      "id": "022acab3-e569-40c2-8df8-87ce85dd40c7",
+      "name": "Agent principale"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Execute a SQL query in Postgres",
+        "operation": "executeQuery",
+        "query": "UPDATE projet_n8n.produits\nSET stock = stock - $1\nWHERE id = $2\n  AND stock >= $1\nRETURNING id, nom, stock, seuil, fournisseur_id;\n",
+        "options": {
+          "queryReplacement": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Query_Parameters', `$1 quantité restante\n$2 id du produit`, 'string') }}"
+        }
+      },
+      "type": "n8n-nodes-base.postgresTool",
+      "typeVersion": 2.6,
+      "position": [
+        656,
+        896
+      ],
+      "id": "2df067b9-5944-41a5-bb92-05986b9b5f48",
+      "name": "decrement_stock_atomique",
+      "credentials": {
+        "postgres": {
+          "id": "******************************",
+          "name": "Postgres lecture de données"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        480,
+        912
+      ],
+      "id": "5f18800d-f3e4-481b-9e02-bcf8b8f2ed45",
+      "name": "OpenAI Chat Model3",
+      "credentials": {
+        "openAiApi": {
+          "id": "******************************",
+          "name": "Modèle OpenAi"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "text": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Prompt__User_Message_', ``, 'string') }}",
+        "options": {
+          "systemMessage": "Tu es un sous-agent IA spécialisé EXCLUSIVEMENT dans la gestion du stock.\nTu ne touches jamais aux tables clients, commandes ou lignes_commande.\nTu modifies uniquement produits.stock via une requête atomique.\n\n================================================================================\nENTRÉE\n================================================================================\nTu reçois un JSON :\n\n{\n  \"produit_id\": number,\n  \"quantite\": number\n}\n\n================================================================================\nRÈGLES STRICTES\n================================================================================\n- quantite >= 1 obligatoire\n- produit_id valide obligatoire\n- Tu dois appeler l’outil PostgreSQL \"decrement_stock_atomique\"\n- Tu ne dois jamais recalculer le stock côté IA\n\n================================================================================\nREQUÊTE SQL UNIQUE AUTORISÉE (VIA Execute Query)\n================================================================================\n\nUPDATE public.produits\nSET stock = stock - $1\nWHERE id = $2\n  AND stock >= $1\nRETURNING id, nom, stock, seuil, fournisseur_id;\n\n================================================================================\nCOMPORTEMENT\n================================================================================\n- Si RETURNING renvoie 0 ligne → refuser (stock insuffisant ou produit inexistant)\n- Si succès → retourner stock, seuil, fournisseur_id\n- Ne jamais appeler d’autre outil\n\n================================================================================\nSORTIE FINALE (JSON UNIQUEMENT)\n================================================================================\n\nSuccès :\n{\n  \"ok\": true,\n  \"produit_id\": number,\n  \"stock_apres\": number,\n  \"seuil\": number,\n  \"fournisseur_id\": number,\n  \"message\": \"Stock décrémenté\"\n}\n\nÉchec :\n{\n  \"ok\": false,\n  \"produit_id\": number,\n  \"stock_apres\": null,\n  \"seuil\": null,\n  \"fournisseur_id\": null,\n  \"message\": \"Stock insuffisant ou produit inexistant\"\n}\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agentTool",
+      "typeVersion": 3,
+      "position": [
+        480,
+        736
+      ],
+      "id": "7f7b591a-7612-470d-bc03-bd1d955821e0",
+      "name": "STOCK"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fc7a56aa-0fc8-4cb8-981c-1b7f42221c5d",
+              "name": "nom_client",
+              "value": "={{ $json.nom }}\n",
+              "type": "string"
+            },
+            {
+              "id": "89278879-ba91-4333-93f7-c1f1eea9e035",
+              "name": "telephone",
+              "value": "={{ $json.telephone }}",
+              "type": "string"
+            },
+            {
+              "id": "3754ef49-3f9f-46fa-b28e-005dbe588b49",
+              "name": "email",
+              "value": "={{ $json.email }}",
+              "type": "string"
+            },
+            {
+              "id": "2969bfff-0222-494a-9e17-cfc825c924e8",
+              "name": "reference_commande",
+              "value": "={{ $json.order_ref }}",
+              "type": "string"
+            },
+            {
+              "id": "ba65bd5b-e363-492b-8a2a-1b325f8f6a7f",
+              "name": "produits",
+              "value": "={{($json.produits) }}",
+              "type": "array"
+            },
+            {
+              "id": "b20b6fe6-dece-4a3c-adcc-340cce591c3c",
+              "name": "total",
+              "value": "={{ $json['total commande'] }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1312,
+        -64
+      ],
+      "id": "040ee890-8faa-49e5-a09d-a445ac9809fd",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $json.output;\n\n// Extraire uniquement le JSON entre { }\nconst match = raw.match(/\\{[\\s\\S]*\\}/);\n\nif (!match) {\n  throw new Error(\"JSON introuvable dans la sortie du modèle\");\n}\n\nconst parsed = JSON.parse(match[0]);\n\nreturn [\n  {\n    json: parsed\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1072,
+        -64
+      ],
+      "id": "567c41be-8586-4b53-99b1-05918e77f7b3",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "jsCode": "const nom = $json.nom_client;\nconst email = $json.email;\nconst tel = $json.telephone;\nconst ref = $json.reference_commande;\nconst panier = $json.produits;\nconst total =Number($json.total ?? 0);\n\nconst date = new Date().toLocaleDateString(\"fr-FR\");\n\n\nconst rows = panier.map((p, i) => {\n  const qte = p.quantité ;\n  const nomProd = p.nom ;\n  return `\n    <tr>\n      <td>${i + 1}</td>\n      <td>${nomProd}</td>\n      <td >${qte}</td>\n    </tr>\n  `;\n}).join(\"\");\n\nconst html = `\n<!DOCTYPE html>\n<html lang=\"fr\">\n<head>\n  <meta charset=\"UTF-8\" />\n  <title>Devis ${ref}</title>\n  <style>\n    body { font-family: Arial, sans-serif; padding: 24px; }\n    .header { display:flex; justify-content:space-between; align-items:flex-start; }\n    .box { border:1px solid #ddd; border-radius:10px; padding:14px; }\n    h1 { margin:0 0 6px 0; }\n    .muted { color:#666; font-size: 12px; }\n    table { width:100%; border-collapse: collapse; margin-top: 16px; }\n    th, td { border-bottom:1px solid #eee; padding:10px; }\n    th { text-align:left; background:#f7f7f7; }\n    .total { margin-top: 16px; display:flex; justify-content:flex-end; }\n    .total .box { min-width: 240px; }\n    .badge { display:inline-block; padding:6px 10px; border-radius:999px; background:#eef2ff; }\n  </style>\n</head>\n<body>\n\n  <div class=\"header\">\n    <div>\n      <h1>DEVIS</h1>\n      <div class=\"muted\">Référence : <strong>${ref}</strong></div>\n      <div class=\"muted\">Date : ${date}</div>\n      <div style=\"margin-top:10px\" class=\"badge\">Devis standard</div>\n    </div>\n\n    <div class=\"box\">\n      <strong>Yob's Electtonique &copy; </strong><br/>\n      Adresse : 87 rue Kyllian Mbappe <br/>\n      SIRET : 2154654785356<br/>\n      Email : services@innovatech.fr <br/>\n      Tél : 07626041455\n    </div>\n  </div>\n\n  <div style=\"display:grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px;\">\n    <div class=\"box\">\n      <strong>Client</strong><br/>\n      Nom : ${nom}<br/>\n      Email : ${email}<br/>\n      Téléphone : ${tel}\n    </div>\n\n    <div class=\"box\">\n      <strong>Informations</strong><br/>\n      Objet : Achat produits<br/>\n      Paiement : par carte<br/>\n      Livraison : Sous 20 jours\n    </div>\n  </div>\n\n  <table>\n    <thead>\n      <tr>\n        <th>#</th>\n        <th>Produit</th>\n        <th style=\"text-align:center;\">Quantité</th>\n      </tr>\n    </thead>\n    <tbody>\n      ${rows}\n    </tbody>\n  </table>\n\n  <div class=\"total\">\n    <div class=\"box\">\n      <div style=\"display:flex; justify-content:space-between;\">\n        <span>Total</span>\n        <strong>${total.toFixed(2)} €</strong>\n      </div>\n      <div class=\"muted\" style=\"margin-top:6px;\">\n        TVA : 20% <br/>\n        Conditions : valable 30 jours\n      </div>\n    </div>\n  </div>\n\n  \n\n</body>\n</html>\n`;\n\nreturn [{ json: { ...$json, html } }];\n\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1536,
+        -64
+      ],
+      "id": "be462098-1d26-4f93-9e5d-35f030079c6f",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.pdfshift.io/v3/convert/pdf",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "source",
+              "value": "={{ $json.html }}"
+            },
+            {
+              "name": "format",
+              "value": "A4"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1760,
+        -64
+      ],
+      "id": "16647920-ced6-4a89-8b54-c227da9b8112",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "xz97FkWYERoF8nPy",
+          "name": "Unnamed credential"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Edit Fields').item.json.email }}",
+        "subject": "=Confirmation votre commande {{ $('Edit Fields').item.json.reference_commande }}",
+        "message": "=Bonjour ,   \nMerci pour votre commande chez Yob's Electronics. \nVeuillez trouver en pièce jointe le devis correspondant à votre commande référence {{ $('Edit Fields').item.json.reference_commande }}.  Montant total :{{ $('Edit Fields').item.json.total }}  €.  Nous restons à votre disposition pour toute question. \nLivraison sous 10 jours conformément à notre politique de livraison. \nCordialement, service livraison Yob's Electroniques",
+        "options": {
+          "attachmentsUi": {
+            "attachmentsBinary": [
+              {}
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        2016,
+        -64
+      ],
+      "id": "4ec06f01-48d6-4995-ba92-e61a66d82de5",
+      "name": "Send a message",
+      "webhookId": "3cd90304-b084-4ca2-b87a-41fe90118894",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "Sib5kuwDgX6mgTJ9",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('To', ``, 'string') }}",
+        "subject": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Subject', `Le sujet du message défini a partir du message a envoyer `, 'string') }}",
+        "message": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message', ``, 'string') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.2,
+      "position": [
+        1936,
+        416
+      ],
+      "id": "b4b9f22a-b097-4755-8eb0-07e67702cc35",
+      "name": "envoyer un message dans Gmail",
+      "webhookId": "f1a9126f-5c29-455a-b4f7-acbdec97140f",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "Sib5kuwDgX6mgTJ9",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.message.message_id }}",
+        "text": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Text', ``, 'string') }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTool",
+      "typeVersion": 1.2,
+      "position": [
+        2144,
+        416
+      ],
+      "id": "37356421-395b-4c9c-9d27-aafabc76643e",
+      "name": "Envoyer un message dans Telegram",
+      "webhookId": "b6fb0a5a-d5f1-450b-83b6-ed3380a7c87c",
+      "credentials": {
+        "telegramApi": {
+          "id": "pwOBCwx03bVcqvee",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "familyName": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Family_Name', `Nom de famille du contact  à ajouter `, 'string') }}",
+        "givenName": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Given_Name', `Prénom du contact à ajouter`, 'string') }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.googleContactsTool",
+      "typeVersion": 1,
+      "position": [
+        2048,
+        416
+      ],
+      "id": "4d7c4b82-900f-4a00-97ac-af1c3c4df097",
+      "name": "créer un contact dans google contact",
+      "credentials": {
+        "googleContactsOAuth2Api": {
+          "id": "rKhXE5MDOMRU5hgY",
+          "name": "Google Contacts"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "yobapatrick2@gmail.com",
+          "mode": "list",
+          "cachedResultName": "yobapatrick2@gmail.com"
+        },
+        "start": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Start', ``, 'string') }}",
+        "end": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('End', ``, 'string') }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        1840,
+        416
+      ],
+      "id": "d76c2f8b-7998-4cdb-b72e-b2552405ea4e",
+      "name": "Créerun événement dans  Google Calendar",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "dtR1wKAxaTLig7R1",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "5cd2c09e-6e89-49e3-bb04-3a17154f210c",
+              "leftValue": "={{ $(\"Webhook\").isExecuted }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        768,
+        224
+      ],
+      "id": "a9987cc3-fbc9-42fb-b249-edab39bd4dbc",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        1232,
+        416
+      ],
+      "id": "b69d867f-8f7d-4bce-81d6-1e2b164cccd3",
+      "name": "OpenAI Chat Model4",
+      "credentials": {
+        "openAiApi": {
+          "id": "E4maLNpUWqzWqXwu",
+          "name": "Modèle OpenAi"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "contextWindowLength": 100
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        1344,
+        416
+      ],
+      "id": "cd803a58-1664-422f-afb6-36ac32e5ba45",
+      "name": "Simple Memory2"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Telegram Trigger').item.json.message.text }}",
+        "options": {
+          "systemMessage": "Rôle : Tu es l'unité de contrôle centrale de mon système d'automatisation. Tu es un expert en gestion administrative, organisation de données et assistance intellectuelle. \n🛠️ Capacités et Outils\n\n    Gestion de Bureau :\n\n        Google Calendar : Planifier, reporter ou modifier des événements.\n\n        Gmail : Envoyer des emails professionnels structurés.\n\n        Google Contacts : Créer ou mettre à jour des fiches contacts.\n\n    Assistance Intellectuelle :\n\n        Résumé : Synthétiser des textes longs en points clés actionnables.\n\n        Q&A : Répondre à des questions de culture générale, techniques ou logiques.\n\n    Communication : Utiliser systématiquement Telegram pour envoyer tes réponses et confirmations.\n\n******************************************************\nProtocoles de Rigueur (Obligatoires)\n\n1. Verrouillage du Calendrier\n\n    Aujourd'hui nous sommes le : (Laisse n8n injecter la date ici, ou demande-la).\n\n    Règle d'Or : Ne déduis jamais \"demain\" ou \"mardi\" sans certitude absolue sur la date actuelle. En cas de doute, envoie un message Telegram pour demander : \"Pour quelle date exacte dois-je programmer cela ?\".\n\n    Précision : Chaque événement créé doit avoir un titre clair, une heure de début et une durée confirmée.\n\n2. Formatage des Messages Telegram\n\nPour que tes réponses soient lisibles sur téléphone, structure-les avec des emojis :\n\n    AGENDA : [Détails de l'événement + Confirmation]\n\n     EMAIL : [Destinataire + Objet + Statut de l'envoi]\n\n     RÉSUMÉ : [Liste à puces des points essentiels]\n\n    💡 RÉPONSE : [Explication claire et concise]\n\n3. Gestion des Erreurs\n\n    Si une information manque (ex: l'email du contact, l'heure du RDV), ne devine pas. Utilise Telegram pour poser la question.\n\n    Si l'outil échoue (ex: erreur API), préviens immédiatement l'utilisateur via un message avec l'erreur rencontré.\n  "
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        1264,
+        224
+      ],
+      "id": "c9355f39-ef9a-4b37-adde-4c068b1605fb",
+      "name": "assistant tâches  bureautique "
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "calendar": {
+          "__rl": true,
+          "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Calendar', ``, 'string') }}",
+          "mode": "id",
+          "__regex": "(^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*)"
+        },
+        "eventId": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Event_ID', ``, 'string') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        1744,
+        416
+      ],
+      "id": "f5556d04-5fae-44e3-aa0f-3d54484158ff",
+      "name": "Delete an event in Google Calendar",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "dtR1wKAxaTLig7R1",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1840,
+        192
+      ],
+      "id": "5c16317b-bfa8-4342-b513-f65ae33ce72b",
+      "name": "Send a text message",
+      "webhookId": "57ab72c1-07f2-4fa1-b913-afb5349604a1",
+      "credentials": {
+        "telegramApi": {
+          "id": "pwOBCwx03bVcqvee",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Agent principale",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Agent principale",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Agent principale",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "Agent principale",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Select rows from a table in Postgres": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agent principale",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "inserer données table clients": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agent principale",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "inserer données table commandes": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agent principale",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "inserer données dans la table lignes_commande": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agent principale",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update rows in a table in Postgres": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agent principale",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "SousAgent_EmailFournisseur_Gmail",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message in Gmail": {
+      "ai_tool": [
+        [
+          {
+            "node": "SousAgent_EmailFournisseur_Gmail",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "lecture donnée tables produits": {
+      "ai_tool": [
+        [
+          {
+            "node": "SousAgent_EmailFournisseur_Gmail",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "lecture donnée tables fournisseurs ": {
+      "ai_tool": [
+        [
+          {
+            "node": "SousAgent_EmailFournisseur_Gmail",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SousAgent_EmailFournisseur_Gmail": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agent principale",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agent principale": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "decrement_stock_atomique": {
+      "ai_tool": [
+        [
+          {
+            "node": "STOCK",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "STOCK",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "STOCK": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agent principale",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "envoyer un message dans Gmail": {
+      "ai_tool": [
+        [
+          {
+            "node": "assistant tâches  bureautique ",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Envoyer un message dans Telegram": {
+      "ai_tool": [
+        [
+          {
+            "node": "assistant tâches  bureautique ",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "créer un contact dans google contact": {
+      "ai_tool": [
+        [
+          {
+            "node": "assistant tâches  bureautique ",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Créerun événement dans  Google Calendar": {
+      "ai_tool": [
+        [
+          {
+            "node": "assistant tâches  bureautique ",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "assistant tâches  bureautique ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model4": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "assistant tâches  bureautique ",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory2": {
+      "ai_memory": [
+        [
+          {
+            "node": "assistant tâches  bureautique ",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete an event in Google Calendar": {
+      "ai_tool": [
+        [
+          {
+            "node": "assistant tâches  bureautique ",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "assistant tâches  bureautique ": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "d8598e57-a578-48a9-a709-27106f221871",
+  "activeVersionId": null,
+  "versionCounter": 38,
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2025-12-24T20:13:52.349Z",
+      "createdAt": "2025-12-24T20:13:52.349Z",
+      "role": "workflow:owner",
+      "workflowId": "UfGKcJJSd7iYp6Dj",
+      "projectId": "qduLdiZtLabwKMdm",
+      "project": {
+        "updatedAt": "2025-12-24T20:07:24.607Z",
+        "createdAt": "2025-12-24T19:57:10.723Z",
+        "id": "qduLdiZtLabwKMdm",
+        "name": "Yoba patrick <yobapatrick2@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "5894afbc-a897-42d4-87db-0001f9e2a180",
+        "projectRelations": [
+          {
+            "updatedAt": "2025-12-24T19:57:10.723Z",
+            "createdAt": "2025-12-24T19:57:10.723Z",
+            "userId": "5894afbc-a897-42d4-87db-0001f9e2a180",
+            "projectId": "qduLdiZtLabwKMdm",
+            "user": {
+              "updatedAt": "2026-02-02T11:12:03.000Z",
+              "createdAt": "2025-12-24T19:57:10.391Z",
+              "id": "5894afbc-a897-42d4-87db-0001f9e2a180",
+              "email": "yobapatrick2@gmail.com",
+              "firstName": "Yoba",
+              "lastName": "patrick",
+              "personalizationAnswers": {
+                "version": "v4",
+                "personalization_survey_submitted_at": "2025-12-24T20:07:33.140Z",
+                "personalization_survey_n8n_version": "2.1.3"
+              },
+              "settings": {
+                "userActivated": true,
+                "easyAIWorkflowOnboarded": true,
+                "firstSuccessfulWorkflowId": "UfGKcJJSd7iYp6Dj",
+                "userActivatedAt": 1766608262675,
+                "dismissedCallouts": {
+                  "aiAgentStarterCallout": true
+                },
+                "npsSurvey": {
+                  "responded": true,
+                  "lastShownAt": 1767962171805
+                }
+              },
+              "disabled": false,
+              "mfaEnabled": false,
+              "lastActiveAt": "2026-02-02",
+              "isPending": false
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tags": [],
+  "parentFolder": null,
+  "activeVersion": null,
+  "scopes": [
+    "workflow:create",
+    "workflow:delete",
+    "workflow:execute",
+    "workflow:execute-chat",
+    "workflow:list",
+    "workflow:move",
+    "workflow:read",
+    "workflow:share",
+    "workflow:update"
+  ],
+  "checksum": "413fb5f166b16cb3adfaf046e4e1325fcfaa2a28cb515523097662f3ba68b5fd"
+}
