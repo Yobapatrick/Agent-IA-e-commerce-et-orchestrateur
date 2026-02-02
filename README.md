@@ -54,6 +54,8 @@ I-Fonctionnalités principales
 
 
 
+
+
 ##  Stack technique
 
 - **Frontend** : React (Vite)
@@ -64,7 +66,7 @@ I-Fonctionnalités principales
 - **PDF** : PDFShift
 - **Bot** : Telegram Bot API
 - **Infra** : Docker & Docker Compose ngrok
--**Tools : Google Calendar, Google contacts, Telegram send message node
+- **Tools** : Google Calendar, Google contacts, Telegram send message node
 
 
 ---
