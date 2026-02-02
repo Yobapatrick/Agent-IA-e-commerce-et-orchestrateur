@@ -5,7 +5,7 @@ Projet complet d’automatisation e-commerce piloté par des *agents IA*, orches
 Ce projet démontre la mise en place d’un *système intelligent, modulaire et sécurisé*, capable de gérer des commandes, du stock, des fournisseurs, des emails, des rendez-vous et des tâches bureautiques via une interface conversationnelle.
 
 ---
-![alt text](image.png)
+![alt text](image-1.png)
 I-Fonctionnalités principales
 
 ### 🛍️ E-commerce
