@@ -114,8 +114,8 @@ Agent-IA-e-commerce-et-orchestrateur/
 │   ├── architecture.png
 │   ├── diagramme_sequence_commande_produits.png
 │   
-│
+│  
 ├── .gitignore
 ├── README.md
-
+|
 
