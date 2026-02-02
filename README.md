@@ -56,9 +56,9 @@ I-Fonctionnalités principales
 - **Emails** : Gmail API
 - **PDF** : PDFShift
 - **Bot** : Telegram Bot API
-- **Infra** : Docker & Docker Compose ngrok
+- **Tunneling**  : ngrok (pour l'accès externe des Webhooks)
 - **Tools** : Google Calendar, Google contacts, Telegram send message node
-
+- **Conteneurisation** : Docker & Docker Compose
 
 ---
 

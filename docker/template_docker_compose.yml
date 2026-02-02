@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  # --- BASE DE DONNÉES POSTGRESQL ---
+  db:
+    image: postgres:15-alpine
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      POSTGRES_DB: ${POSTGRES_DATABASE:-ecommerce_db}
+    volumes:
+      # Initialisation automatique : charge ton schema.sql et tes triggers au démarrage
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  # --- ORCHESTRATEUR n8n ---
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: n8n_agent
+    restart: always
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_HOST=${N8N_HOST}
+      - WEBHOOK_URL=https://${N8N_HOST}/
+      - DB_TYPE=postgresdb
+      - DB_POSTGRESDB_HOST=db
+      - DB_POSTGRESDB_PORT=5432
+      - DB_POSTGRESDB_DATABASE=${POSTGRES_DATABASE:-ecommerce_db}
+      - DB_POSTGRESDB_USER=${POSTGRES_USER:-user}
+      - DB_POSTGRESDB_PASSWORD=${POSTGRES_PASSWORD:-password}
+      - N8N_ENCRYPTION_KEY=${N8N_ENCRYPTION_KEY}
+    volumes:
+      - n8n_data:/home/node/.n8n
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
+  n8n_data:
